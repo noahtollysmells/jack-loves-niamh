@@ -10,7 +10,7 @@
             padding: 0;
             height: 100%;
             font-family: sans-serif;
-            overflow: hidden; /* Prevent scrollbars */
+            overflow: hidden;
             position: relative;
         }
 
@@ -114,7 +114,7 @@
 <body>
     <header>
         <span>Tap the screen</span>
-        <span class="version">Version: 1.8</span>
+        <span class="version">Version: 1.9</span>
     </header>
 
     <!-- The Click Here button -->
@@ -122,7 +122,9 @@
 
     <script>
         // Handle the button click
-        document.getElementById('clickHereButton').addEventListener('click', function() {
+        let isSpamming = false;
+        
+        function createRandomText() {
             // Create "Jack loves Niamh" text element
             const text = document.createElement('div');
             text.className = 'color-changing-text';
@@ -143,7 +145,30 @@
 
             // Add text to body
             document.body.appendChild(text);
-        });
+        }
+
+        // Start spamming when button is pressed down
+        function startSpamming() {
+            isSpamming = true;
+            spamInterval = setInterval(createRandomText, 100); // Create random text every 100ms
+        }
+
+        // Stop spamming when button is released
+        function stopSpamming() {
+            isSpamming = false;
+            clearInterval(spamInterval); // Stop generating text
+        }
+
+        // Add event listeners for both desktop and mobile devices
+        const button = document.getElementById('clickHereButton');
+
+        // Mouse and touch events for button press and release
+        button.addEventListener('mousedown', startSpamming);
+        button.addEventListener('mouseup', stopSpamming);
+        button.addEventListener('mouseleave', stopSpamming); // Stop if mouse leaves button
+        button.addEventListener('touchstart', startSpamming);
+        button.addEventListener('touchend', stopSpamming);
+        button.addEventListener('touchcancel', stopSpamming); // Handle touch cancellation (when user swipes away)
     </script>
 </body>
 </html>
