@@ -86,22 +86,35 @@
 <body>
     <header>
         <span>Tap the screen</span>
-        <span class="version">Version: 1.6</span>
+        <span class="version">Version: 1.7</span>
     </header>
 
     <script>
         // Only update version number on each new generation
-        let version = 1.6;
+        let version = 1.7;
 
-        // Prevent "Jack loves Niamh" text from appearing in the header, and make sure it's behind the header
-        document.body.addEventListener('click', function(e) {
-            if (e.target === document.querySelector('header')) return; // Prevent pop-up in the header area
-
+        // Function to handle the click or tap event
+        function handleClick(event) {
+            // Prevent "Jack loves Niamh" text from appearing in the header, and make sure it's behind the header
             const text = document.createElement('div');
             text.className = 'color-changing-text';
             text.textContent = 'Jack loves Niamh';
-            text.style.left = `${e.pageX}px`;
-            text.style.top = `${e.pageY}px`;
+
+            // Get touch position or click position
+            let x, y;
+            if (event.type === 'touchstart') {
+                // For mobile (touch) devices
+                const touch = event.touches[0];
+                x = touch.pageX;
+                y = touch.pageY;
+            } else {
+                // For desktop (click) devices
+                x = event.pageX;
+                y = event.pageY;
+            }
+
+            text.style.left = `${x}px`;
+            text.style.top = `${y}px`;
 
             // Increase font size by 20px with each click to make the text grow visibly
             let currentSize = parseInt(text.style.fontSize) || 16;
@@ -109,7 +122,12 @@
             text.style.fontSize = `${newSize}px`;
 
             document.body.appendChild(text);
-        });
+        }
+
+        // Add event listeners for both touch and click
+        document.body.addEventListener('click', handleClick);
+        document.body.addEventListener('touchstart', handleClick);
     </script>
 </body>
 </html>
+
