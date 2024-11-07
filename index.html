@@ -5,19 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Click Animation</title>
     <style>
-        .rainbow-text {
+        .color-changing-text {
             position: absolute;
             font-size: 16px;
             font-weight: bold;
-            background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
-            -webkit-background-clip: text;
-            color: transparent;
-            animation: rainbow 1.5s linear infinite;
+            animation: color-change 2s linear infinite;
         }
-        
-        @keyframes rainbow {
-            0% { background-position: 0% 50%; }
-            100% { background-position: 100% 50%; }
+
+        @keyframes color-change {
+            0% { color: red; }
+            16% { color: orange; }
+            33% { color: yellow; }
+            50% { color: green; }
+            66% { color: blue; }
+            83% { color: indigo; }
+            100% { color: violet; }
         }
     </style>
 </head>
@@ -25,7 +27,7 @@
     <script>
         document.addEventListener('click', function(e) {
             const text = document.createElement('div');
-            text.className = 'rainbow-text';
+            text.className = 'color-changing-text';
             text.textContent = 'Jack loves Niamh';
             text.style.left = `${e.pageX}px`;
             text.style.top = `${e.pageY}px`;
