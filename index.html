@@ -41,6 +41,7 @@
             font-weight: bold;
             animation: color-change 2s linear infinite;
             z-index: 1; /* Keeps text behind header */
+            transition: font-size 0.1s ease-in-out;
         }
 
         @keyframes color-change {
@@ -75,8 +76,19 @@
             text.textContent = 'Jack loves Niamh';
             text.style.left = `${e.pageX}px`;
             text.style.top = `${e.pageY}px`;
+
+            // Increase font size with each click
+            let currentSize = 16;
+            let newSize = currentSize + 5; // Increase size by 5px on each click
+            if (newSize <= 200) { // Limit the maximum size
+                text.style.fontSize = `${newSize}px`;
+            } else {
+                text.style.fontSize = '200px'; // Maximum size
+            }
+
             document.body.appendChild(text);
         });
     </script>
 </body>
 </html>
+
