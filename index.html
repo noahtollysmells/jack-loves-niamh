@@ -60,12 +60,12 @@
 <body>
     <header>
         <span>Tap the screen</span>
-        <span class="version">Version: 1.3</span>
+        <span class="version">Version: 1.4</span>
     </header>
 
     <script>
         // Only update version number on each new generation
-        let version = 1.3;
+        let version = 1.4;
 
         // Prevent "Jack loves Niamh" text from appearing in the header, and make sure it's behind the header
         document.body.addEventListener('click', function(e) {
@@ -77,14 +77,10 @@
             text.style.left = `${e.pageX}px`;
             text.style.top = `${e.pageY}px`;
 
-            // Increase font size with each click
-            let currentSize = 16;
+            // Increase font size with each click without any limit
+            let currentSize = parseInt(text.style.fontSize) || 16;
             let newSize = currentSize + 5; // Increase size by 5px on each click
-            if (newSize <= 200) { // Limit the maximum size
-                text.style.fontSize = `${newSize}px`;
-            } else {
-                text.style.fontSize = '200px'; // Maximum size
-            }
+            text.style.fontSize = `${newSize}px`;
 
             document.body.appendChild(text);
         });
