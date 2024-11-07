@@ -3,38 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jack Loves Niamh's Website</title>
+    <title>Click Animation</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
-
         body {
             margin: 0;
-            font-family: 'Roboto', sans-serif;
+            padding: 0;
+            height: 100%;
         }
 
-        /* Title at the top */
-        .title {
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #333;
+            color: white;
             text-align: center;
-            font-size: 32px;
-            font-weight: bold;
-            padding: 20px;
-            background-color: #f0f0f0;
-            margin: 0;
+            padding: 10px;
         }
 
-        /* Container to prevent overlap of text */
-        .content {
-            padding: 20px;
-            height: calc(100vh - 60px); /* Full height minus the title */
-            overflow: hidden;
+        .version {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 14px;
+            font-weight: bold;
         }
 
         .color-changing-text {
             position: absolute;
-            font-size: 18px;
-            font-weight: 500;
-            white-space: nowrap;
-            transform: translate(-50%, -50%);
+            font-size: 16px;
+            font-weight: bold;
             animation: color-change 2s linear infinite;
         }
 
@@ -50,19 +49,38 @@
     </style>
 </head>
 <body>
-    <div class="title">Tap the Screen</div>
-    <div class="content">
-        <script>
-            document.addEventListener('click', function(e) {
-                const text = document.createElement('div');
-                text.className = 'color-changing-text';
-                text.textContent = 'Jack loves Niamh';
-                text.style.left = `${e.pageX}px`;
-                text.style.top = `${e.pageY}px`;
-                document.body.appendChild(text);
-            });
-        </script>
-    </div>
+    <header>
+        <span>Tap the screen</span>
+        <span class="version">Version: 1.0</span>
+    </header>
+
+    <script>
+        let version = 1.0;
+
+        // Update version number dynamically
+        function updateVersion() {
+            version += 0.1;
+            document.querySelector('.version').textContent = `Version: ${version.toFixed(1)}`;
+        }
+
+        document.querySelector('header').addEventListener('click', function(e) {
+            if (e.target !== document.querySelector('header')) {
+                return;
+            }
+            updateVersion(); // Increment version on header click
+        });
+
+        document.body.addEventListener('click', function(e) {
+            if (e.target === document.querySelector('header')) return; // Prevent pop-up in the header area
+            const text = document.createElement('div');
+            text.className = 'color-changing-text';
+            text.textContent = 'Jack loves Niamh';
+            text.style.left = `${e.pageX}px`;
+            text.style.top = `${e.pageY}px`;
+            document.body.appendChild(text);
+        });
+    </script>
 </body>
 </html>
+
 
