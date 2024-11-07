@@ -11,6 +11,7 @@
             height: 100%;
             font-family: sans-serif;
             overflow: hidden; /* Prevent scrollbars */
+            position: relative;
         }
 
         header {
@@ -22,17 +23,17 @@
             color: white;
             text-align: center;
             padding: 20px;
-            font-family: 'Roboto', sans-serif; /* Clean modern font */
-            font-size: 24px; /* Increased font size for header */
-            z-index: 2; /* Keeps the header above everything else */
+            font-family: 'Roboto', sans-serif;
+            font-size: 24px;
+            z-index: 2;
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 30px; /* Adds more space between "Tap the screen" and version */
+            gap: 30px;
         }
 
         .version, header span {
-            font-size: 24px; /* Same font size for both */
+            font-size: 24px;
             font-weight: bold;
         }
 
@@ -41,9 +42,9 @@
             font-size: 16px;
             font-weight: bold;
             animation: color-change 2s linear infinite;
-            z-index: 1; /* Keeps text behind header */
+            z-index: 1;
             transition: font-size 0.1s ease-in-out;
-            pointer-events: none; /* Prevents the text from interfering with clicks */
+            pointer-events: none;
         }
 
         @keyframes color-change {
@@ -56,6 +57,27 @@
             100% { color: violet; }
         }
 
+        /* Centered button at the bottom */
+        .click-button {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 15px 30px;
+            background-color: #007BFF;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            z-index: 3;
+        }
+
+        .click-button:hover {
+            background-color: #0056b3;
+        }
+
         /* Media queries for responsiveness */
         @media (max-width: 768px) {
             header {
@@ -65,6 +87,10 @@
 
             .version {
                 font-size: 18px;
+            }
+
+            .click-button {
+                font-size: 16px;
             }
         }
 
@@ -77,57 +103,47 @@
             .version {
                 font-size: 16px;
             }
-        }
 
+            .click-button {
+                font-size: 14px;
+            }
+        }
     </style>
-    <!-- Include Google Fonts for Roboto -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
 </head>
 <body>
     <header>
         <span>Tap the screen</span>
-        <span class="version">Version: 1.7</span>
+        <span class="version">Version: 1.8</span>
     </header>
 
-    <script>
-        // Only update version number on each new generation
-        let version = 1.7;
+    <!-- The Click Here button -->
+    <button class="click-button" id="clickHereButton">Click Here</button>
 
-        // Function to handle the click or tap event
-        function handleClick(event) {
-            // Prevent "Jack loves Niamh" text from appearing in the header, and make sure it's behind the header
+    <script>
+        // Handle the button click
+        document.getElementById('clickHereButton').addEventListener('click', function() {
+            // Create "Jack loves Niamh" text element
             const text = document.createElement('div');
             text.className = 'color-changing-text';
             text.textContent = 'Jack loves Niamh';
 
-            // Get touch position or click position
-            let x, y;
-            if (event.type === 'touchstart') {
-                // For mobile (touch) devices
-                const touch = event.touches[0];
-                x = touch.pageX;
-                y = touch.pageY;
-            } else {
-                // For desktop (click) devices
-                x = event.pageX;
-                y = event.pageY;
-            }
+            // Randomize position on the screen
+            const randomX = Math.floor(Math.random() * window.innerWidth); // Random x position
+            const randomY = Math.floor(Math.random() * window.innerHeight); // Random y position
 
-            text.style.left = `${x}px`;
-            text.style.top = `${y}px`;
+            // Position the text randomly
+            text.style.left = `${randomX}px`;
+            text.style.top = `${randomY}px`;
 
             // Increase font size by 20px with each click to make the text grow visibly
             let currentSize = parseInt(text.style.fontSize) || 16;
             let newSize = currentSize + 20; // Increase size by 20px on each click
             text.style.fontSize = `${newSize}px`;
 
+            // Add text to body
             document.body.appendChild(text);
-        }
-
-        // Add event listeners for both touch and click
-        document.body.addEventListener('click', handleClick);
-        document.body.addEventListener('touchstart', handleClick);
+        });
     </script>
 </body>
 </html>
-
