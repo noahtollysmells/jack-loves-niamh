@@ -9,6 +9,7 @@
             margin: 0;
             padding: 0;
             height: 100%;
+            font-family: 'Arial', sans-serif;
         }
 
         header {
@@ -63,6 +64,7 @@
             document.querySelector('.version').textContent = `Version: ${version.toFixed(1)}`;
         }
 
+        // Prevent pop-up on header click, update version
         document.querySelector('header').addEventListener('click', function(e) {
             if (e.target !== document.querySelector('header')) {
                 return;
@@ -70,6 +72,7 @@
             updateVersion(); // Increment version on header click
         });
 
+        // Show "Jack loves Niamh" text when clicking on the body, not in the header
         document.body.addEventListener('click', function(e) {
             if (e.target === document.querySelector('header')) return; // Prevent pop-up in the header area
             const text = document.createElement('div');
@@ -82,5 +85,6 @@
     </script>
 </body>
 </html>
+
 
 
