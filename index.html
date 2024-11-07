@@ -10,6 +10,7 @@
             padding: 0;
             height: 100%;
             font-family: sans-serif;
+            overflow: hidden; /* Prevent scrollbars */
         }
 
         header {
@@ -42,6 +43,7 @@
             animation: color-change 2s linear infinite;
             z-index: 1; /* Keeps text behind header */
             transition: font-size 0.1s ease-in-out;
+            pointer-events: none; /* Prevents the text from interfering with clicks */
         }
 
         @keyframes color-change {
@@ -53,6 +55,30 @@
             83% { color: indigo; }
             100% { color: violet; }
         }
+
+        /* Media queries for responsiveness */
+        @media (max-width: 768px) {
+            header {
+                font-size: 20px;
+                padding: 15px;
+            }
+
+            .version {
+                font-size: 18px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header {
+                font-size: 18px;
+                padding: 10px;
+            }
+
+            .version {
+                font-size: 16px;
+            }
+        }
+
     </style>
     <!-- Include Google Fonts for Roboto -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
@@ -60,12 +86,12 @@
 <body>
     <header>
         <span>Tap the screen</span>
-        <span class="version">Version: 1.5</span>
+        <span class="version">Version: 1.6</span>
     </header>
 
     <script>
         // Only update version number on each new generation
-        let version = 1.5;
+        let version = 1.6;
 
         // Prevent "Jack loves Niamh" text from appearing in the header, and make sure it's behind the header
         document.body.addEventListener('click', function(e) {
