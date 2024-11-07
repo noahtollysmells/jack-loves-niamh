@@ -3,13 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Click Animation</title>
+    <title>Jack Loves Niamh's Website</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
 
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        /* Title at the top */
+        .title {
+            text-align: center;
+            font-size: 32px;
+            font-weight: bold;
+            padding: 20px;
+            background-color: #f0f0f0;
+            margin: 0;
+        }
+
+        /* Container to prevent overlap of text */
+        .content {
+            padding: 20px;
+            height: calc(100vh - 60px); /* Full height minus the title */
+            overflow: hidden;
+        }
+
         .color-changing-text {
             position: absolute;
-            font-family: 'Roboto', sans-serif;
             font-size: 18px;
             font-weight: 500;
             white-space: nowrap;
@@ -29,16 +50,19 @@
     </style>
 </head>
 <body>
-    <script>
-        document.addEventListener('click', function(e) {
-            const text = document.createElement('div');
-            text.className = 'color-changing-text';
-            text.textContent = 'Jack loves Niamh';
-            text.style.left = `${e.pageX}px`;
-            text.style.top = `${e.pageY}px`;
-            document.body.appendChild(text);
-        });
-    </script>
+    <div class="title">Tap the Screen</div>
+    <div class="content">
+        <script>
+            document.addEventListener('click', function(e) {
+                const text = document.createElement('div');
+                text.className = 'color-changing-text';
+                text.textContent = 'Jack loves Niamh';
+                text.style.left = `${e.pageX}px`;
+                text.style.top = `${e.pageY}px`;
+                document.body.appendChild(text);
+            });
+        </script>
+    </div>
 </body>
 </html>
 
