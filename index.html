@@ -9,7 +9,7 @@
             margin: 0;
             padding: 0;
             height: 100%;
-            font-family: 'Arial', sans-serif;
+            font-family: sans-serif;
         }
 
         header {
@@ -52,16 +52,16 @@
 <body>
     <header>
         <span>Tap the screen</span>
-        <span class="version">Version: 1.0</span>
+        <span class="version">Version: 1</span>
     </header>
 
     <script>
-        let version = 1.0;
+        let version = 1;
 
-        // Update version number dynamically
+        // Update version number dynamically (increment by 1)
         function updateVersion() {
-            version += 0.1;
-            document.querySelector('.version').textContent = `Version: ${version.toFixed(1)}`;
+            version += 1;
+            document.querySelector('.version').textContent = `Version: ${version}`;
         }
 
         // Prevent pop-up on header click, update version
@@ -85,6 +85,5 @@
     </script>
 </body>
 </html>
-
 
 
