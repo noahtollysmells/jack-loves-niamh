@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Click Animation</title>
+    <title>Click Animation with Admin Panel</title>
     <style>
         body {
             margin: 0;
@@ -26,13 +26,9 @@
             font-family: 'Roboto', sans-serif;
             font-size: 24px;
             z-index: 2;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 30px;
         }
 
-        .version, header span {
+        .version {
             font-size: 24px;
             font-weight: bold;
         }
@@ -57,7 +53,6 @@
             100% { color: violet; }
         }
 
-        /* Centered button at the bottom */
         .click-button {
             position: fixed;
             bottom: 20px;
@@ -78,17 +73,105 @@
             background-color: #0056b3;
         }
 
-        /* Media queries for responsiveness */
+        .admin-panel-button {
+            position: fixed;
+            top: 20px;
+            padding: 10px 15px;
+            background-color: #28a745;
+            color: white;
+            font-size: 14px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            z-index: 5;
+        }
+
+        .admin-panel-button:hover {
+            background-color: #218838;
+        }
+
+        .customization-button {
+            display: none; /* Initially hidden */
+            position: fixed;
+            top: 20px;
+            left: 120px; /* Adjusted position to the left of the admin panel */
+            padding: 10px 15px;
+            background-color: #007BFF;
+            color: white;
+            font-size: 14px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            z-index: 5;
+        }
+
+        .customization-button:hover {
+            background-color: #0056b3;
+        }
+
+        .admin-panel-form, .customization-form {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: black; /* Changed background color to black */
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            z-index: 6;
+            width: 350px;
+            max-width: 90%;
+            text-align: center;
+        }
+
+        .admin-panel-header, .customization-header {
+            display: flex;
+            justify-content: flex-end; /* Align to the right */
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .minimize-button {
+            font-size: 16px; /* Adjusted size for readability */
+            color: white;
+            background-color: red; /* Red background for the button */
+            border: none; /* No border */
+            cursor: pointer;
+            padding: 5px 10px; /* Padding for a better button size */
+            border-radius: 5px; /* Rounded corners */
+        }
+
+        .admin-panel-form input, .admin-panel-form button,
+        .customization-form input, .customization-form button {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #555;
+            background-color: #222;
+            color: #fff;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        .admin-panel-form button, .customization-form button {
+            background-color: #007BFF;
+            cursor: pointer;
+        }
+
+        .admin-panel-form button:hover, .customization-form button:hover {
+            background-color: #0056b3;
+        }
+
         @media (max-width: 768px) {
             header {
                 font-size: 20px;
                 padding: 15px;
             }
-
             .version {
                 font-size: 18px;
             }
-
             .click-button {
                 font-size: 16px;
             }
@@ -99,11 +182,9 @@
                 font-size: 18px;
                 padding: 10px;
             }
-
             .version {
                 font-size: 16px;
             }
-
             .click-button {
                 font-size: 14px;
             }
@@ -114,61 +195,103 @@
 <body>
     <header>
         <span>Tap the screen</span>
-        <span class="version">Version: 1.9</span>
+        <span class="version">Version: 2.2</span> <!-- Updated version number -->
     </header>
 
-    <!-- The Click Here button -->
+    <button class="admin-panel-button" id="adminPanelButton">Admin Panel</button>
+    <button class="customization-button" id="customizationButton">Customize Text</button>
     <button class="click-button" id="clickHereButton">Click Here</button>
 
-    <script>
-        // Handle the button click
-        let isSpamming = false;
+    <div class="admin-panel-form" id="adminPanelForm">
+        <div class="admin-panel-header">
+            <button class="minimize-button" id="minimizeAdminPanel">Close</button> <!-- Changed to "Close" -->
+        </div>
         
+        <input type="password" id="adminPassword" placeholder="Enter password" />
+        <button id="loginButton">Login</button>
+    </div>
+
+    <div class="customization-form" id="customizationForm">
+        <div class="customization-header">
+            <button class="minimize-button" id="minimizeCustomizationForm">Close</button> <!-- Changed to "Close" -->
+        </div>
+        <input type="text" id="customTextInput" placeholder="Enter custom text" />
+        <button id="saveTextButton">Save Text</button>
+    </div>
+
+    <script>
+        let adminPanelVisible = false;
+        let customizationFormVisible = false;
+        let isAdmin = false;
+        let customText = 'Jack loves Niamh'; // Default text
+
         function createRandomText() {
-            // Create "Jack loves Niamh" text element
             const text = document.createElement('div');
             text.className = 'color-changing-text';
-            text.textContent = 'Jack loves Niamh';
+            text.textContent = customText;
 
-            // Randomize position on the screen
-            const randomX = Math.floor(Math.random() * window.innerWidth); // Random x position
-            const randomY = Math.floor(Math.random() * window.innerHeight); // Random y position
+            const randomX = Math.floor(Math.random() * window.innerWidth);
+            const randomY = Math.floor(Math.random() * window.innerHeight);
 
-            // Position the text randomly
             text.style.left = `${randomX}px`;
             text.style.top = `${randomY}px`;
 
-            // Increase font size by 20px with each click to make the text grow visibly
             let currentSize = parseInt(text.style.fontSize) || 16;
-            let newSize = currentSize + 20; // Increase size by 20px on each click
+            let newSize = currentSize + 20;
             text.style.fontSize = `${newSize}px`;
 
-            // Add text to body
             document.body.appendChild(text);
         }
 
-        // Start spamming when button is pressed down
-        function startSpamming() {
-            isSpamming = true;
-            spamInterval = setInterval(createRandomText, 100); // Create random text every 100ms
+        function showAdminPanel() {
+            document.getElementById('adminPanelForm').style.display = 'block';
+            adminPanelVisible = true;
         }
 
-        // Stop spamming when button is released
-        function stopSpamming() {
-            isSpamming = false;
-            clearInterval(spamInterval); // Stop generating text
+        function hideAdminPanel() {
+            document.getElementById('adminPanelForm').style.display = 'none';
+            adminPanelVisible = false;
         }
 
-        // Add event listeners for both desktop and mobile devices
-        const button = document.getElementById('clickHereButton');
+        function minimizeAdminPanel() {
+            document.getElementById('adminPanelForm').style.display = 'none';
+        }
 
-        // Mouse and touch events for button press and release
-        button.addEventListener('mousedown', startSpamming);
-        button.addEventListener('mouseup', stopSpamming);
-        button.addEventListener('mouseleave', stopSpamming); // Stop if mouse leaves button
-        button.addEventListener('touchstart', startSpamming);
-        button.addEventListener('touchend', stopSpamming);
-        button.addEventListener('touchcancel', stopSpamming); // Handle touch cancellation (when user swipes away)
+        function showCustomizationForm() {
+            document.getElementById('customizationForm').style.display = 'block';
+            customizationFormVisible = true;
+        }
+
+        function hideCustomizationForm() {
+            document.getElementById('customizationForm').style.display = 'none';
+            customizationFormVisible = false;
+        }
+
+        function handleLogin() {
+            const password = document.getElementById('adminPassword').value;
+            if (password === 'admin') {
+                isAdmin = true;
+                document.getElementById('customizationButton').style.display = 'block'; // Show the customization button
+                alert('Logged in successfully!');
+                hideAdminPanel();
+            } else {
+                alert('Incorrect password!');
+            }
+        }
+
+        function saveCustomText() {
+            customText = document.getElementById('customTextInput').value;
+            alert('Custom text saved!');
+        }
+
+        // Event listeners
+        document.getElementById('clickHereButton').addEventListener('click', createRandomText);
+        document.getElementById('adminPanelButton').addEventListener('click', showAdminPanel);
+        document.getElementById('loginButton').addEventListener('click', handleLogin);
+        document.getElementById('customizationButton').addEventListener('click', showCustomizationForm);
+        document.getElementById('saveTextButton').addEventListener('click', saveCustomText);
+        document.getElementById('minimizeAdminPanel').addEventListener('click', minimizeAdminPanel);
+        document.getElementById('minimizeCustomizationForm').addEventListener('click', hideCustomizationForm);
     </script>
 </body>
 </html>
